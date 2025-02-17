@@ -10,7 +10,7 @@ import (
 
 var listCmd = &cobra.Command{
 	Use:   "list",
-	Short: "Lista secrets em um namespace",
+	Short: "List secrets in a namespace",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		client, err := k8s.NewClient(kubeconfig)
 		if err != nil {
@@ -22,9 +22,9 @@ var listCmd = &cobra.Command{
 			return fmt.Errorf("error listing secrets: %w", err)
 		}
 
-		fmt.Printf("Secrets no namespace %s:\n", namespace)
+		fmt.Printf("Secrets in namespace %s:\n", namespace)
 		for _, secret := range secrets {
-			fmt.Printf("- %s (Tipo: %s)\n", secret.Name, secret.Type)
+			fmt.Printf("- %s (Type: %s)\n", secret.Name, secret.Type)
 		}
 
 		return nil

@@ -1,7 +1,7 @@
 # Makefile
-.PHONY: build test clean run-server run-cli help
+.PHONY: build test lint docker run
 
-BINARY_NAME=k8s-secret-manager
+BINARY_NAME=k8s-secrets-manager
 BUILD_DIR=build
 
 help:
@@ -10,19 +10,31 @@ help:
 	@echo "Usage:"
 	@echo "  make build      - Compile the project"
 	@echo "  make test       - Execute the tests"
-	@echo "  make clean      - Remove the generated files"
-	@echo "  make run-server - Execute in server mode"
-	@echo "  make run-cli    - Execute in CLI mode"
+	@echo "  make lint       - Run golangci-lint"
+	@echo "  make docker     - Build the Docker image"
+	@echo "  make run        - Run the project"
 	@echo "  make help       - Show this help message"
 
 build:
 	@echo "Building..."
 	@mkdir -p $(BUILD_DIR)
-	@go build -o $(BUILD_DIR)/$(BINARY_NAME) cmd/k8s-secret-manager/main.go
+	@go build -o $(BUILD_DIR)/$(BINARY_NAME) ./cmd/k8s-secrets-manager/main.go
 
 test:
 	@echo "Running tests..."
 	@go test -v ./...
+
+lint:
+	@echo "Running golangci-lint..."
+	@golangci-lint run
+
+docker:
+	@echo "Building Docker image..."
+	@docker build -t k8s-secrets-manager .
+
+run:
+	@echo "Running project..."
+	@go run ./cmd/k8s-secrets-manager/main.go
 
 clean:
 	@echo "Cleaning..."

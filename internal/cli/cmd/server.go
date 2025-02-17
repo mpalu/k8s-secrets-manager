@@ -14,7 +14,7 @@ var (
 
 var serverCmd = &cobra.Command{
 	Use:   "server",
-	Short: "Inicia o servidor HTTP",
+	Short: "Start HTTP server",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		client, err := k8s.NewClient(kubeconfig)
 		if err != nil {

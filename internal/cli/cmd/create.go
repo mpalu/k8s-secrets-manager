@@ -17,7 +17,7 @@ var (
 
 var createCmd = &cobra.Command{
 	Use:   "create",
-	Short: "Cria um novo secret",
+	Short: "Create a new secret",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		client, err := k8s.NewClient(kubeconfig)
 		if err != nil {
@@ -44,16 +44,16 @@ var createCmd = &cobra.Command{
 			return fmt.Errorf("error creating secret: %w", err)
 		}
 
-		fmt.Printf("Secret %s criado com sucesso no namespace %s\n", secretName, namespace)
+		fmt.Printf("Secret %s successfully created in namespace %s\n", secretName, namespace)
 		return nil
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(createCmd)
-	createCmd.Flags().StringVar(&secretName, "name", "", "nome do secret")
-	createCmd.Flags().StringVar(&secretType, "type", "Opaque", "tipo do secret")
-	createCmd.Flags().StringVar(&secretData, "data", "", "dados do secret (formato: key1=value1,key2=value2)")
+	createCmd.Flags().StringVar(&secretName, "name", "", "secret name")
+	createCmd.Flags().StringVar(&secretType, "type", "Opaque", "secret type")
+	createCmd.Flags().StringVar(&secretData, "data", "", "secret data (format: key1=value1,key2=value2)")
 	createCmd.MarkFlagRequired("name")
 	createCmd.MarkFlagRequired("data")
 }

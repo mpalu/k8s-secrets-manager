@@ -1,0 +1,32 @@
+# Development files
+.git
+.gitignore
+.github
+.vscode
+.idea
+*.md
+*.log
+
+# Build and test files
+build/
+test/
+*.test
+coverage.out
+
+# Dependencies and cache
+vendor/
+.cache/
+go.sum
+
+# Local configuration files
+.env
+*.local
+*.yaml
+!config/config.yaml
+
+# Others
+Makefile
+LICENSE
+docs/
+examples/
+tmp/

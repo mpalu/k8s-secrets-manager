@@ -2,6 +2,7 @@ package k8s
 
 import (
 	"context"
+	"fmt"
 
 	corev1 "k8s.io/api/core/v1"
 )
@@ -23,4 +24,13 @@ type SecretManager interface {
 	GetSecret(ctx context.Context, namespace, name string) (*corev1.Secret, error)
 
 	ListSecrets(ctx context.Context, namespace string) ([]corev1.Secret, error)
+}
+
+type ValidationError struct {
+	Field   string
+	Message string
+}
+
+func (e *ValidationError) Error() string {
+	return fmt.Sprintf("%s: %s", e.Field, e.Message)
 }

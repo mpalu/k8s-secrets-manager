@@ -28,7 +28,7 @@ func ValidateSecretData(data *k8s.SecretData) error {
 		}
 	}
 
-	for key, value := range data.Data {
+	for key := range data.Data {
 		if key == "" {
 			return &k8s.ValidationError{
 				Field:   "data",
@@ -48,6 +48,25 @@ func ValidateSecretData(data *k8s.SecretData) error {
 }
 
 func isValidKey(key string) bool {
+	// DNS subdomain name validation as per Kubernetes naming conventions
 	// https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#dns-subdomain-names
-	return true
+	if len(key) > 253 {
+		return false
+	}
+
+	// Must consist of lowercase alphanumeric characters, '-' or '.', and must start and end with an alphanumeric character
+	validKey := true
+	for i, char := range key {
+		isAlphanumeric := (char >= 'a' && char <= 'z') || (char >= '0' && char <= '9')
+		isDash := char == '-'
+		isDot := char == '.'
+
+		// First and last characters must be alphanumeric
+		if i == 0 || i == len(key)-1 {
+			validKey = validKey && isAlphanumeric
+		} else {
+			validKey = validKey && (isAlphanumeric || isDash || isDot)
+		}
+	}
+	return validKey
 }
